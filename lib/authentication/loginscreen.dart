@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       } catch (e) {
                         print(e);
                         var snackbar = SnackBar(content: Text(e.toString()));
-                        Scaffold.of(context)..showSnackBar(snackbar);
+                        Scaffold.of(context).showSnackBar(snackbar);
                       }
                     },
                     child: Container(

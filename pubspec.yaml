@@ -40,6 +40,8 @@ dependencies:
   flutter_custom_clippers:
   image_picker:
   jitsi_meet:
+  step_progress_indicator: ^0.2.4+7
+
 
 dev_dependencies:
   flutter_test:

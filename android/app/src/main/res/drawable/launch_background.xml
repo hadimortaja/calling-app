@@ -5,8 +5,10 @@
 
     <!-- You can insert your own image assets here -->
     <!-- <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@mipmap/launch_image" />
+        <mipmap
+        android:layout_height="10dp"
+        android:layout_width="10dp"
+        android:gravity="center"
+        android:src="@drawable/logo" />
     </item> -->
 </layer-list>

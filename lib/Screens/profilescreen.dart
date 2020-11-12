@@ -95,7 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[250],
+      backgroundColor: Colors.white,
       body: dataisthere == false
           ? Center(
               child: CircularStepProgressIndicator(

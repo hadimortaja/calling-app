@@ -15,7 +15,7 @@ class _IntroAuthScreenState extends State<IntroAuthScreen> {
       pages: [
         PageViewModel(
             title: "Welcome",
-            body: "Welcome to HCalls, the best video conference app",
+            body: "Mortaja's Meeting, the best video conference app",
             image: Center(
               child: Image.asset(
                 'images/welcome.png',

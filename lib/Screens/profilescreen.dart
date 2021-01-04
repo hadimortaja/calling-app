@@ -1,10 +1,9 @@
 import 'package:calling_app/variables.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
+
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -13,6 +12,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String username = '';
+  String email = '';
   bool dataisthere = false;
   TextEditingController usernameController = TextEditingController();
   @override
@@ -26,6 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         await userCollection.doc(FirebaseAuth.instance.currentUser.uid).get();
     setState(() {
       username = userdoc.data()['username'];
+      email = userdoc.data()['email'];
       dataisthere = true;
     });
   }
@@ -46,19 +47,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
         builder: (context) {
           return Dialog(
             child: Container(
-              height: 200,
+              height: 150,
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 30,
-                  ),
+                  
                   Container(
-                    margin: EdgeInsets.only(left: 30, right: 30),
+                    margin: EdgeInsets.only(left: 40, right: 40),
                     child: TextField(
                       controller: usernameController,
                       // style: ,
                       decoration: InputDecoration(
-                          labelText: "Update Username",
+                          labelText: "Update username",
                           labelStyle:
                               TextStyle(fontSize: 16, color: Colors.grey)),
                     ),
@@ -75,8 +74,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 30,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          gradient:
-                              LinearGradient(colors: GradientColors.orange)),
+                          color: Colors.greenAccent
+                         ),
                       child: Center(
                         child: Text(
                           "Update now!",
@@ -95,85 +94,151 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text(
+          "Profile",
+          style: TextStyle(color: Colors.black, fontSize: 25),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 2.0,
+      ),
+
       body: dataisthere == false
           ? Center(
-              child: CircularStepProgressIndicator(
-                totalSteps: 10,
-                currentStep: 6,
-                width: 50,
-                height: 50,
-                gradientColor:
-                    LinearGradient(colors: [Colors.orange, Colors.deepOrange]),
-              ),
-            )
-          : Stack(
-              children: [
-                ClipPath(
-                  clipper: OvalBottomBorderClipper(),
-                  child: Container(
-                    width: double.infinity,
-                    height: MediaQuery.of(context).size.height / 2.5,
-                    decoration: BoxDecoration(
-                        gradient:
-                            LinearGradient(colors: GradientColors.juicyOrange)),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width / 2 - 64,
-                    top: MediaQuery.of(context).size.height / 3.5,
-                  ),
-                  child: CircleAvatar(
-                    radius: 64,
+                child: CupertinoActivityIndicator()): Container(
+              margin: EdgeInsets.only(bottom: 60),
+              // height: 400,
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 55,
                     backgroundImage: NetworkImage(
-                      'https://mpng.subpng.com/20180326/lke/kisspng-web-development-computer-icons-avatar-business-use-profile-5ab94da7695485.6343143015220934794314.jpg',
+                      'https://previews.123rf.com/images/salamatik/salamatik1801/salamatik180100019/92979836-profile-anonymous-face-icon-gray-silhouette-person-male-default-avatar-photo-placeholder-isolated-on.jpg'
                     ),
-                    backgroundColor: Colors.grey[300],
+                    backgroundColor: Colors.grey[700],
                   ),
-                ),
-                Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 180,
-                      ),
-                      Text(
-                        username,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 30,
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    username,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    email,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 15,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    width: 180,
+                    child: RaisedButton(
+                      color: Colors.greenAccent,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      onPressed: () {
+                        openEditProfileDialog();
+                      },
+                      child: Center(
+                          child: Text("Edit Your Name",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16))),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    height: 40,
+                    width: 300,
+                    child: RaisedButton(
+                        onPressed: () {},
+                        color: Colors.grey[200],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          openEditProfileDialog();
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width / 2,
-                          height: 30,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              gradient: LinearGradient(
-                                  colors: GradientColors.orange)),
-                          child: Center(
-                            child: Text(
-                              "Edit Profile",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 17),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.person_outline_rounded,
+                              color: Colors.grey[700],
+                              size: 20,
                             ),
-                          ),
-                        ),
-                      )
-                    ],
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "Privacy",
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            SizedBox(
+                              width: 170,
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.grey[700],
+                              size: 15,
+                            )
+                          ],
+                        )),
                   ),
-                )
-              ],
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    height: 40,
+                    width: 300,
+                    child: RaisedButton(
+                        onPressed: () {
+                          FirebaseAuth.instance.signOut();
+                        },
+                        color: Colors.grey[200],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.logout,
+                              color: Colors.grey[700],
+                              size: 18,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "Log Out",
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            SizedBox(
+                              width: 172,
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.grey[700],
+                              size: 15,
+                            )
+                          ],
+                        )),
+                  ),
+                ],
+              ),
             ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:calling_app/Screens/profilescreen.dart';
 import 'package:calling_app/Screens/videoconferencescreen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -9,8 +9,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int page = 0;
-  List pageOptions = [
+  int _currentIndex = 0;
+  final tabs = [
     VideoConferenceScreen(),
     ProfileScreen(),
   ];
@@ -18,23 +18,21 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[250],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.orange[300],
-        unselectedItemColor: Colors.grey,
-        currentIndex: page,
-        onTap: (index) {
-          setState(() {
-            page = index;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-              label: "Video Call", icon: Icon(Icons.video_call)),
-          BottomNavigationBarItem(label: "Profile", icon: Icon(Icons.person))
-        ],
-      ),
-      body: pageOptions[page],
+       bottomNavigationBar: TitledBottomNavigationBar(
+         currentIndex: _currentIndex,
+         activeColor: Colors.greenAccent,
+          onTap: (index) => setState(
+            () {
+              _currentIndex = index;
+            },
+       ),
+       items: [
+         TitledNavigationBarItem(title: Text('Video Call',style: TextStyle(fontWeight: FontWeight.w600),), icon: Icons.video_call),
+                  TitledNavigationBarItem(title: Text('Profile',style: TextStyle(fontWeight: FontWeight.w600),), icon: Icons.person),
+
+       ],
+       ),
+      body: tabs[_currentIndex],
     );
   }
 }
